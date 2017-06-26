@@ -2,8 +2,21 @@
 #include <string.h>
 
 #include "hex_base64.h"
+#include "fixed_xor.h"
+
+void hex_to_base64_tests();
+void fixed_xor_tests();
 
 int main(int argc, char** argv)
+{
+    //hex_to_base64_tests();
+
+    //fixed_xor_tests();
+
+    return 0;
+}
+
+void hex_to_base64_tests()
 {
     printf("*****************************************************\n");
     printf("************     HEX TO BASE 64     *****************\n");
@@ -52,6 +65,31 @@ int main(int argc, char** argv)
     hex_to_string(hex, (int)strlen(string), hexstr);
 
     printf("hexstr: %s\n", hexstr);
+}
 
-    return 0;
+void fixed_xor_tests()
+{
+    printf("*****************************************************\n");
+    printf("************       FIXED XOR        *****************\n");
+
+    char num1[] = {"1c0111001f010100061a024b53535009181c"};
+    char num2[] = {"686974207468652062756c6c277320657965"};
+    char num3[] = {"686974207468652062756c6c277320657965"}; /* Num3 is output buffer initialization is for space allocation */
+
+    int buffer_size = (int)strlen(num1);
+
+    char hex1[buffer_size];
+    char hex2[buffer_size];
+    char hex3[buffer_size];
+
+    string_to_hex(num1, hex1);
+    string_to_hex(num2, hex2);
+
+    fixed_xor(hex1, buffer_size, hex2, buffer_size, hex3);
+
+    hex_to_string(hex3, buffer_size, num3);
+
+    printf("num1: %s\n", num1);
+    printf("num2: %s\n", num2);
+    printf("num3: %s\n", num3);
 }
