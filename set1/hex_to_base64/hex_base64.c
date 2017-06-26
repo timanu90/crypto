@@ -1,5 +1,3 @@
-#include "stdio.h"
-
 #include "hex_base64.h"
 
 static char* base64_code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
@@ -21,6 +19,21 @@ int atoi_hex(char c)
     return ret;
 }
 
+char itoa_hex(int num)
+{
+    char ret = '0';
+
+    if ( 0 <= num && 9 >= num ){
+        ret = (char)('0' + num);
+    }
+    else if( 10 <= num && 16 >= num )
+    {
+        ret = (char)('a' + num - 10);
+    }
+
+    return ret;
+}
+
 void string_to_hex(char* str, char* hex)
 {
     while(*str) {
@@ -28,9 +41,12 @@ void string_to_hex(char* str, char* hex)
     }
 }
 
-void hex_to_string(char* hex, char* str)
+void hex_to_string(char* hex, int size, char* str)
 {
-
+    while( 0 < size-- ) {
+        *str++ = itoa_hex(*hex++);
+    }
+    *str = '\0';
 }
 
 void hex_to_base64(char* hex, int size, char* base64)
@@ -53,24 +69,37 @@ void hex_to_base64(char* hex, int size, char* base64)
             iter_hex += 3;
             iter_base += 2;
         }
-
-        printf("base64: ");
-        for(int i=0; i<iter_base; i++ ) {
-
-            printf("%c", base64_code[base64[i]]);
-        }
-        printf("\n\n");
-
     }
 }
 
-void base64_to_hex(char* base64, char* hex)
+void base64_to_hex(char* base64, int size, char* hex)
 {
+    int iter_hex  = 0;
+    int iter_base = 0;
 
+    while ( iter_base < size) {
+
+        char num1 = base64[iter_base] >> 2;
+        char num2 = ((base64[iter_base] & 0x3) << 2) | ((base64[iter_base + 1] >> 4) & 0x3);
+        char num3 = base64[iter_base + 1] & 0xF;
+
+        hex[iter_hex] = num1;
+        hex[iter_hex + 1] = num2;
+        hex[iter_hex + 2] = num3;
+
+        iter_hex += 3;
+        iter_base += 2;
+    }
 }
 
-void base64_to_string(char* base64, char* str)
+void base64_to_string(char* base64, int size, char* str)
 {
+    int i;
 
+    for( i=0; i<size; i++ ) {
+
+        str[i] = base64_code[base64[i]];
+    }
+    str[i] = '\0';
 }
 
