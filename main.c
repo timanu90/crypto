@@ -35,5 +35,8 @@ int main(int argc, char** argv)
     }
     printf("\n");
 
+    /* Convert hex to base64 */
+    hex_to_base64(hex, (int)strlen(string), base64);
+
     return 0;
 }
