@@ -1,38 +1,68 @@
+/**
+ * Copyright (c) 2017 Tiago Vasconcelos
+ *
+ * mail: tiago.vasconcelos.18@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @brief - Base64 basic conversions.
+ * @date  - 26-06-2017
+ *
+ */
+
 #include "hex_base64.h"
 
+/**************************************************************************************************
+ *          Module defines
+ **************************************************************************************************/
+
+
+/**************************************************************************************************
+ *          Module private functions declaration
+ **************************************************************************************************/
+
+/**
+ * @brief - atoi_hex, convert an input string char to an integer 4 bit representation.
+ * @param[in] c - Char to be converted.
+ * @return - integer value.
+ */
+int atoi_hex(char c);
+
+/**
+ * @brief - itoa_hex, convert an input integer to a char representation.
+ * @param[in] c - Char to be converted.
+ * @return - integer value.
+ */
+char itoa_hex(int num);
+
+/**************************************************************************************************
+ *          Module Private vars.
+ **************************************************************************************************/
+/**
+ * @brief base64_code - Array that hold the 6bit representation for base64 representation.
+ */
 static char* base64_code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
-int atoi_hex(char c)
-{
-    int ret = 0;
 
-    if( ('0' <= c) && ('9' >= c) ) {
-        ret = (int)(c - '0');
-    }
-    else if (('A' <= c) && ('F' >= c)) {
-        ret = (int)(c - 'A' + 10);
-    }
-    else if (('a' <= c) && ('f' >= c)) {
-        ret = (int)(c - 'a' + 10);
-    }
-
-    return ret;
-}
-
-char itoa_hex(int num)
-{
-    char ret = '0';
-
-    if ( 0 <= num && 9 >= num ){
-        ret = (char)('0' + num);
-    }
-    else if( 10 <= num && 16 >= num )
-    {
-        ret = (char)('a' + num - 10);
-    }
-
-    return ret;
-}
+/**************************************************************************************************
+ *          Module public function implementation
+ **************************************************************************************************/
 
 void string_to_hex(char* str, char* hex)
 {
@@ -103,3 +133,38 @@ void base64_to_string(char* base64, int size, char* str)
     str[i] = '\0';
 }
 
+/**************************************************************************************************
+ *          Module private function implementation
+ **************************************************************************************************/
+
+int atoi_hex(char c)
+{
+    int ret = 0;
+
+    if( ('0' <= c) && ('9' >= c) ) {
+        ret = (int)(c - '0');
+    }
+    else if (('A' <= c) && ('F' >= c)) {
+        ret = (int)(c - 'A' + 10);
+    }
+    else if (('a' <= c) && ('f' >= c)) {
+        ret = (int)(c - 'a' + 10);
+    }
+
+    return ret;
+}
+
+char itoa_hex(int num)
+{
+    char ret = '0';
+
+    if ( 0 <= num && 9 >= num ){
+        ret = (char)('0' + num);
+    }
+    else if( 10 <= num && 16 >= num )
+    {
+        ret = (char)('a' + num - 10);
+    }
+
+    return ret;
+}
